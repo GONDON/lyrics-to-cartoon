@@ -136,15 +136,9 @@ body {
   outline: none;
 }
 
-.upload-container:hover,
-.upload-container:focus {
+.upload-container:hover {
   border-color: var(--accent);
-}
-
-.upload-container.dragging {
-  background: rgba(50, 69, 255, 0.05);
-  border-color: var(--accent);
-  animation: pulse 1.5s infinite;
+  animation: wiggle 0.5s ease-in-out;
 }
 
 .upload-area {
@@ -158,11 +152,17 @@ body {
   font-size: 2.5rem;
   color: var(--accent);
   margin-bottom: 1.5rem;
-  transition: transform 0.6s cubic-bezier(0.68, -0.6, 0.32, 1.6);
+  transition: transform 0.3s ease;
 }
 
 .upload-container:hover .upload-icon {
-  transform: rotate(-12deg) scale(1.1);
+  transform: scale(1.1);
+  animation: bounce 0.5s ease infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) scale(1.1); }
+  50% { transform: translateY(-5px) scale(1.1); }
 }
 
 .upload-container p {
@@ -559,8 +559,29 @@ body {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* 禁用一些桌面端的动画效果 */
-  .upload-container:hover,
+  /* 移除禁用动画的代码 */
+  .upload-container:hover {
+    border-color: var(--accent);
+    animation: wiggle 0.5s ease-in-out;
+  }
+
+  .upload-container:active {
+    animation: wiggle 0.3s ease-in-out;
+    opacity: 0.9;
+  }
+
+  /* 图标动画 */
+  .upload-container:hover .upload-icon {
+    transform: scale(1.1);
+    animation: bounce 0.5s ease infinite;
+  }
+
+  .upload-container:active .upload-icon {
+    animation: bounce 0.3s ease;
+  }
+
+  /* 移除这些禁用动画的样式 */
+  /* .upload-container:hover,
   .image-card:hover {
     transform: none;
   }
@@ -570,11 +591,21 @@ body {
     transform: none;
   }
 
-  /* 添加触摸反馈 */
-  .upload-container:active,
-  .image-card:active {
-    opacity: 0.7;
+  .upload-container:hover {
+    animation: none;
   }
+
+  .upload-container:active {
+    animation: wiggle 0.3s ease-in-out;
+  }
+
+  .upload-container:hover .upload-icon {
+    animation: none;
+  }
+
+  .upload-container:active .upload-icon {
+    animation: bounce 0.3s ease;
+  } */
 }
 
 /* iPhone SE 等小屏设备适配 */
@@ -599,4 +630,16 @@ body {
     margin-top: calc(3rem + 85px + env(safe-area-inset-top));
     padding-bottom: env(safe-area-inset-bottom);
   }
+}
+
+/* 添加抖动动画关键帧 */
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-3deg); }
+  75% { transform: rotate(3deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0) scale(1.1); }
+  50% { transform: translateY(-5px) scale(1.1); }
 }
